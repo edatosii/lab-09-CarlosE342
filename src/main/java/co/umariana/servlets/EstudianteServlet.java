@@ -1,13 +1,15 @@
 package co.umariana.servlets;
 
-import co.umariana.dao.EstudianteDAO;
-import co.umariana.modelo.Estudiante;
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import co.umariana.dao.EstudianteDAO;
+import co.umariana.modelo.Estudiante;
 
 /**
  * Controlador del CRUD de estudiantes: recibe las peticiones HTTP, usa el DAO
@@ -89,6 +91,11 @@ public class EstudianteServlet extends HttpServlet {
         // YA RESUELTO: "nuevo" muestra el formulario vacío.
         if ("nuevo".equals(accion)) {
             request.getRequestDispatcher(VISTA_FORMULARIO).forward(request, response);
+            return;
+        }
+        if ("listar".equals(accion) || accion == null) {
+            request.setAttribute("estudiantes", dao.listar());
+            request.getRequestDispatcher(VISTA_LISTAR).forward(request, response);
             return;
         }
 
